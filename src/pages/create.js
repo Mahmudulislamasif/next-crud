@@ -1,11 +1,14 @@
 import { useForm } from "react-hook-form";
-
+import React, { Component } from 'react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 const CreateNews = () => {
-    const {register, handleSubmit}=useForm();
+    const {register, handleSubmit,setValue}=useForm();
     const imageHostKey="faaaee3275f3c09ab74770dc7af1cb21";
     const onSubmit=(data)=>{
+        console.log(data)
         const image=data.image_url[0];
         console.log(image);
         const formData=new FormData();
@@ -30,6 +33,7 @@ const CreateNews = () => {
                category:data.category,
                comment_count:data.comment_count,
                image_url:imgData.data.url,
+               ckeditor_value: data.ckeditor_value,
             }
             fetch('/api/news',{
             method:"POST",
@@ -99,10 +103,20 @@ const CreateNews = () => {
                 marginBottom:"10px 0px"
              }}
              />
+           
              <input 
              type="file"
              {...register("image_url")}
              />
+               <CKEditor
+                    editor={ClassicEditor}
+                    data="" // Initial CKEditor content
+                    onChange={(event, editor) => {
+                        const ckeditor_value = editor.getData();
+                        // Use setValue from react-hook-form to set the ckeditor_value
+                        setValue("ckeditor_value",ckeditor_value)
+                    }}
+                />
               <input 
               type="submit"
               value="Create News"

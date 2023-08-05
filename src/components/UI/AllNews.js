@@ -69,6 +69,9 @@ const AllNews = ({ allNews }) => {
                             <span>
                                 <ProfileOutlined/> {news?.cotegory}
                             </span>
+                            <span>
+                                <ProfileOutlined/> <div dangerouslySetInnerHTML={{ __html: news?.ckeditor_value }} />
+                            </span>
                             </p>
                             <p
                             style={{fontSize:"15px"}}
